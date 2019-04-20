@@ -30,9 +30,12 @@ dependencies {
     // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.4.2.Final'
 
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    compile group: 'com.h2database', name: 'h2', version: '1.4.199'
+    
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
 
 // Define the main class for the application
-mainClassName = 'personal.jhkim.jpa.playground.App'
+mainClassName = 'personal.jpa.playground.App'
