@@ -3,6 +3,7 @@
  */
 package personal.jpa.playground;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -27,13 +28,39 @@ public class App {
 
             tx.begin();
 
+            logic(em);
+
             tx.commit();
 
         } catch(Exception e) {
+            e.printStackTrace();
             tx.rollback();
         } finally {
             em.close();
         }
         emf.close();
+    }
+
+
+    public static void logic(final EntityManager em) {
+
+        Member member = new Member();
+        member.setId("test");
+        member.setUsername("jh");
+        member.setAge(20);
+
+        em.persist(member);
+
+        member.setAge(25);
+
+        Member findMember = em.find(Member.class, "test");
+        System.out.printf("findMember = %s, age = %d%n", findMember.getUsername(),
+                findMember.getAge());
+
+        List<Member> members =
+                em.createQuery("select m from Member m", Member.class).getResultList();
+        System.out.println("members.size = " + members.size());
+
+        em.remove(member);
     }
 }
