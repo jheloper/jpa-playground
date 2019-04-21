@@ -3,6 +3,7 @@
  */
 package personal.jpa.playground;
 
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -28,7 +29,8 @@ public class App {
 
             tx.begin();
 
-            logic(em);
+            logicForMember(em);
+            logicForProduct(em);
 
             tx.commit();
 
@@ -38,13 +40,14 @@ public class App {
         } finally {
             em.close();
         }
+
         emf.close();
     }
 
 
-    public static void logic(final EntityManager em) {
+    public static void logicForMember(final EntityManager em) {
 
-        Member member = new Member();
+        final Member member = new Member();
         member.setId("test");
         member.setUsername("jh");
         member.setAge(20);
@@ -53,14 +56,29 @@ public class App {
 
         member.setAge(25);
 
-        Member findMember = em.find(Member.class, "test");
+        final Member findMember = em.find(Member.class, "test");
         System.out.printf("findMember = %s, age = %d%n", findMember.getUsername(),
                 findMember.getAge());
 
-        List<Member> members =
+        final List<Member> members =
                 em.createQuery("select m from Member m", Member.class).getResultList();
         System.out.println("members.size = " + members.size());
 
         em.remove(member);
+    }
+
+
+    public static void logicForProduct(final EntityManager em) {
+
+        final Product product = new Product();
+        product.setProductName("test product");
+        product.setQuantity(10);
+        product.setPrice(BigDecimal.valueOf(10000));
+
+        em.persist(product);
+
+        product.setQuantity(15);
+
+        System.out.println("product quantity = " + product.getQuantity());
     }
 }

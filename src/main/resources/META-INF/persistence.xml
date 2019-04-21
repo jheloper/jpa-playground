@@ -4,6 +4,7 @@
     <persistence-unit name="jpa-playground" transaction-type="RESOURCE_LOCAL">
 
         <class>personal.jpa.playground.Member</class>
+        <class>personal.jpa.playground.Product</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
