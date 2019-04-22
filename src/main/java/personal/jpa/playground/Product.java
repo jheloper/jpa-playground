@@ -3,6 +3,8 @@ package personal.jpa.playground;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
@@ -13,6 +15,7 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Product {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private long id;
 

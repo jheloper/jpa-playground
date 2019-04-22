@@ -31,6 +31,7 @@ public class App {
 
             logicForMember(em);
             logicForProduct(em);
+            logicForDetach(em);
 
             tx.commit();
 
@@ -80,5 +81,20 @@ public class App {
         product.setQuantity(15);
 
         System.out.println("product quantity = " + product.getQuantity());
+    }
+
+
+    public static void logicForDetach(final EntityManager em) {
+
+        final Product product = new Product();
+        product.setProductName("test product2");
+        product.setQuantity(10);
+        product.setPrice(BigDecimal.valueOf(5000));
+
+        em.persist(product);
+
+        System.out.println("product id = " + product.getId());
+
+        em.detach(product);
     }
 }
