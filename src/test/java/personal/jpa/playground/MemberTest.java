@@ -37,4 +37,29 @@ public class MemberTest {
 
         Assert.assertNull(entityManager.find(Member.class, "test1"));
     }
+
+
+    @Test
+    public void persistMemberWithTransactionCommit() {
+
+        // 트랜잭션 커밋하면 데이터베이스에 적용된다.
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+
+        final Member member = new Member();
+
+        member.setId("test1");
+        member.setAge(10);
+        member.setUsername("Tom");
+
+        entityManager.persist(member);
+
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Assert.assertNotNull(entityManager.find(Member.class, "test1"));
+    }
 }
