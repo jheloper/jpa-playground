@@ -62,4 +62,32 @@ public class MemberTest {
 
         Assert.assertNotNull(entityManager.find(Member.class, "test1"));
     }
+
+
+    @Test
+    public void updateMember() {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+
+        final Member member = new Member();
+
+        member.setId("test1");
+        member.setAge(10);
+        member.setUsername("Tom");
+
+        entityManager.persist(member);
+
+        member.setAge(20);
+
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        final Member findMember = entityManager.find(Member.class, "test1");
+
+        Assert.assertNotNull(findMember);
+        Assert.assertEquals(Integer.valueOf(20), findMember.getAge());
+    }
 }
