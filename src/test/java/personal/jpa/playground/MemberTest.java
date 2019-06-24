@@ -139,4 +139,48 @@ public class MemberTest {
         Assert.assertNotNull(findMember);
         Assert.assertEquals(Integer.valueOf(10), findMember.getAge());
     }
+
+
+    @Test
+    public void removeMember() {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        // 엔티티를 영속 상태로 만드는 트랜잭션 1 시작
+        entityManager.getTransaction().begin();
+
+        final Member member = new Member();
+
+        member.setId("test1");
+        member.setAge(10);
+        member.setUsername("Tom");
+
+        entityManager.persist(member);
+
+        // 트랜잭션 1 커밋
+        entityManager.getTransaction().commit();
+
+        // 영속성 컨텍스트 강제 초기화
+        entityManager.clear();
+
+        final Member findMember = entityManager.find(Member.class, "test1");
+
+        Assert.assertNotNull(findMember);
+
+        // 엔티티를 삭제하는 트랜잭션 2 시작
+        entityManager.getTransaction().begin();
+
+        // 엔티티를 삭제한다
+        entityManager.remove(findMember);
+
+        // 트랜잭션 2 커밋
+        entityManager.getTransaction().commit();
+
+        // 영속성 컨텍스트 강제 초기화
+        entityManager.clear();
+
+        final Member removedMember = entityManager.find(Member.class, "test1");
+
+        Assert.assertNull(removedMember);
+    }
 }
