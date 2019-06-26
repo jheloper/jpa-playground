@@ -183,4 +183,34 @@ public class MemberTest {
 
         Assert.assertNull(removedMember);
     }
+
+
+    @Test
+    public void sameMemberEntity() {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+
+        final Member member = new Member();
+
+        member.setId("test1");
+        member.setAge(10);
+        member.setUsername("Tom");
+
+        entityManager.persist(member);
+
+        entityManager.getTransaction().commit();
+
+        // 영속성 컨텍스트 강제 초기화
+        entityManager.clear();
+
+        final Member findMember1 = entityManager.find(Member.class, "test1");
+        final Member findMember2 = entityManager.find(Member.class, "test1");
+
+        Assert.assertNotNull(findMember1);
+        Assert.assertNotNull(findMember2);
+
+        Assert.assertSame(findMember1, findMember2);
+    }
 }
