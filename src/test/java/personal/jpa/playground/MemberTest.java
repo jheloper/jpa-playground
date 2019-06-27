@@ -213,4 +213,59 @@ public class MemberTest {
 
         Assert.assertSame(findMember1, findMember2);
     }
+
+
+    @Test
+    public void mergeDetachedMember() {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        // 엔티티를 영속 상태로 만드는 트랜잭션 1 시작
+        entityManager.getTransaction().begin();
+
+        final Member member = new Member();
+
+        member.setId("test1");
+        member.setAge(10);
+        member.setUsername("Tom");
+
+        entityManager.persist(member);
+
+        // 트랜잭션 1 커밋
+        entityManager.getTransaction().commit();
+
+        // 엔티티의 속성 값을 수정하는 트랜잭션 2 시작
+        entityManager.getTransaction().begin();
+
+        // 엔티티를 준영속 상태로 만들어버리면 속성 값이 수정되지 않는다.
+        entityManager.detach(member);
+
+        member.setAge(20);
+
+        // 트랜잭션 2 커밋
+        entityManager.getTransaction().commit();
+
+        final Member findMember = entityManager.find(Member.class, "test1");
+
+        Assert.assertNotNull(findMember);
+        Assert.assertEquals(Integer.valueOf(10), findMember.getAge());
+
+        // 엔티티를 준영속 상태에서 영속 상태로 변경하고 속성 값을 수정하는 트랜잭션 3 시작
+        entityManager.getTransaction().begin();
+
+        // 병합을 통해 준영속 상태에서 영속 상태로 변경한 엔티티 반환.
+        // 이 때 중요한 것은 기존의 준영속 상태의 엔티티 자체가 영속 상태로 변하는 것이 아니라,
+        // 영속 상태로 바뀐 다른 엔티티 객체가 반환된다는 것.
+        final Member mergedMember = entityManager.merge(member);
+
+        mergedMember.setAge(30);
+
+        // 트랜잭션 3 커밋
+        entityManager.getTransaction().commit();
+
+        final Member findMember2 = entityManager.find(Member.class, "test1");
+
+        Assert.assertNotNull(findMember2);
+        Assert.assertEquals(Integer.valueOf(30), findMember2.getAge());
+    }
 }
