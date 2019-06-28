@@ -218,6 +218,8 @@ public class MemberTest {
     @Test
     public void mergeDetachedMember() {
 
+        // 준영속 상태의 엔티티를 병합하여 영속 상태로 변경할 수 있다.
+
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         // 엔티티를 영속 상태로 만드는 트랜잭션 1 시작
@@ -267,5 +269,34 @@ public class MemberTest {
 
         Assert.assertNotNull(findMember2);
         Assert.assertEquals(Integer.valueOf(30), findMember2.getAge());
+    }
+
+
+    @Test
+    public void mergeNewMember() {
+
+        // 비영속 상태의 엔티티를 병합하여 영속 상태로 변경할 수 있다.
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        // 비영속 엔티티를 병합하는 트랜잭션 1 시작
+        entityManager.getTransaction().begin();
+
+        Member member = new Member();
+
+        member.setId("test1");
+        member.setAge(10);
+        member.setUsername("Tom");
+
+        // 비영속 엔티티를 병합하면 엔티티를 데이터베이스에 삽입하고 영속상태의 엔티티를 반환
+        member = entityManager.merge(member);
+
+        // 트랜잭션 1 커밋
+        entityManager.getTransaction().commit();
+
+        final Member findMember = entityManager.find(Member.class, "test1");
+
+        Assert.assertNotNull(findMember);
+        Assert.assertEquals(member, findMember);
     }
 }
