@@ -10,16 +10,19 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import personal.jpa.playground.enums.TeamType;
 
 @Entity
-@Table(name = "team")
+@Table(name = "team", uniqueConstraints = {
+        @UniqueConstraint(name = "TEAM_NAME_TEAM_TYPE_UNIQUE", columnNames = {"team_name",
+                "team_type"})})
 public class Team {
 
     @Id
     private int id;
 
-    @Column(name = "team_name")
+    @Column(name = "team_name", nullable = false, length = 100)
     private String teamName;
 
     // Enum 타입 매핑
