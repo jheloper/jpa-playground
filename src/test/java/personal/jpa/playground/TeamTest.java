@@ -30,7 +30,6 @@ public class TeamTest {
 
         final Team team = new Team();
 
-        team.setId(1);
         team.setTeamName("team1");
         team.setTeamType(TeamType.A);
         team.setCreatedAt(new Date());
@@ -41,7 +40,7 @@ public class TeamTest {
 
         entityManager.getTransaction().commit();
 
-        final Team findTeam = entityManager.find(Team.class, 1);
+        final Team findTeam = entityManager.find(Team.class, team.getId());
 
         Assert.assertNotNull(findTeam);
         Assert.assertEquals(team, findTeam);
@@ -59,7 +58,6 @@ public class TeamTest {
 
         final Team team = new Team();
 
-        team.setId(1);
         team.setTeamType(TeamType.A);
         team.setCreatedAt(new Date());
         team.setUpdatedAt(new Date());
@@ -84,7 +82,6 @@ public class TeamTest {
 
         final Team team1 = new Team();
 
-        team1.setId(1);
         team1.setTeamName("team1");
         team1.setTeamType(TeamType.A);
         team1.setCreatedAt(new Date());
@@ -95,7 +92,6 @@ public class TeamTest {
 
         final Team team2 = new Team();
 
-        team2.setId(2);
         team2.setTeamName("team1");
         team2.setTeamType(TeamType.A);
         team2.setCreatedAt(new Date());
