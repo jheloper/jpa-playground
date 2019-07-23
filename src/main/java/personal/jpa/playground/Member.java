@@ -3,6 +3,7 @@ package personal.jpa.playground;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,6 +18,9 @@ public class Member {
     private String username;
 
     private Integer age;
+
+    @ManyToOne
+    private Team team;
 
 
     public String getId() {
@@ -46,5 +50,15 @@ public class Member {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+
+    public Team getTeam() {
+        return team;
+    }
+
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }
