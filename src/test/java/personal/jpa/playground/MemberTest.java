@@ -6,6 +6,7 @@ import javax.persistence.Persistence;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import personal.jpa.playground.enums.TeamType;
 
 public class MemberTest {
 
@@ -298,5 +299,50 @@ public class MemberTest {
 
         Assert.assertNotNull(findMember);
         Assert.assertEquals(member, findMember);
+    }
+
+
+    @Test
+    public void manyToOneUnidirectionalRelation() {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        // 트랜잭션 1 시작
+        entityManager.getTransaction().begin();
+
+        Member member = new Member();
+
+        member.setId("test1");
+        member.setAge(10);
+        member.setUsername("Tom");
+
+        entityManager.persist(member);
+
+        // 트랜잭션 1 커밋
+        entityManager.getTransaction().commit();
+
+        // 트랜잭션 2 시작
+        entityManager.getTransaction().begin();
+
+        Team team = new Team();
+
+        team.setTeamName("team1");
+        team.setTeamType(TeamType.A);
+        team.setDescription("this team is first team.");
+
+        entityManager.persist(team);
+
+        member.setTeam(team);
+
+        // 트랜잭션 2 커밋
+        entityManager.getTransaction().commit();
+
+        // 영속성 컨텍스트 초기화
+        entityManager.clear();
+
+        Member findMember = entityManager.find(Member.class, "test1");
+
+        System.out.println(findMember.getTeam().getId());
+        Assert.assertEquals(team.getId(), findMember.getTeam().getId());
     }
 }
