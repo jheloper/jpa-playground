@@ -3,6 +3,7 @@ package personal.jpa.playground;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,6 +21,7 @@ public class Member {
     private Integer age;
 
     @ManyToOne
+    @JoinColumn(name = "team_ref_id")
     private Team team;
 
 
