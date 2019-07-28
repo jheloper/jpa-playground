@@ -1,5 +1,6 @@
 package personal.jpa.playground;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -344,5 +345,55 @@ public class MemberTest {
 
         System.out.println(findMember.getTeam().getId());
         Assert.assertEquals(team.getId(), findMember.getTeam().getId());
+    }
+
+
+    @Test
+    public void getTeamWihJpqlManyToOneUnidirectionalRelation() {
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        // 트랜잭션 1 시작
+        entityManager.getTransaction().begin();
+
+        Member member = new Member();
+
+        member.setId("test1");
+        member.setAge(10);
+        member.setUsername("Tom");
+
+        entityManager.persist(member);
+
+        // 트랜잭션 1 커밋
+        entityManager.getTransaction().commit();
+
+        // 트랜잭션 2 시작
+        entityManager.getTransaction().begin();
+
+        Team team = new Team();
+
+        team.setTeamName("team1");
+        team.setTeamType(TeamType.A);
+        team.setDescription("this team is first team.");
+
+        entityManager.persist(team);
+
+        member.setTeam(team);
+
+        // 트랜잭션 2 커밋
+        entityManager.getTransaction().commit();
+
+        // 영속성 컨텍스트 초기화
+        entityManager.clear();
+
+        final String jpql = "SELECT m FROM Member m JOIN m.team t WHERE t.teamName = :teamName";
+        List<Member> findMembers =
+                entityManager.createQuery(jpql, Member.class).setParameter("teamName", "team1")
+                        .getResultList();
+
+        for(final Member findMember : findMembers) {
+            System.out.println(findMember.getId());
+            Assert.assertEquals(team.getId(), findMember.getTeam().getId());
+        }
     }
 }
