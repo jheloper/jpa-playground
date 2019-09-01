@@ -1,10 +1,6 @@
 package personal.jpa.playground;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "member")
@@ -23,6 +19,10 @@ public class Member {
     // 생략해도 기본 전략에 따라 외래키 지정됨
     // @JoinColumn(name = "team_ref_id")
     private Team team;
+
+    @OneToOne
+    @JoinColumn(name = "member_detail_id")
+    private MemberDetail memberDetail;
 
 
     public String getId() {
@@ -62,5 +62,15 @@ public class Member {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+
+    public MemberDetail getMemberDetail() {
+        return memberDetail;
+    }
+
+
+    public void setMemberDetail(MemberDetail memberDetail) {
+        this.memberDetail = memberDetail;
     }
 }
