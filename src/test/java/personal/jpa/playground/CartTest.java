@@ -54,17 +54,17 @@ public class CartTest {
 
         final List<Product> cartProducts1 = Arrays.asList(product1, product3);
         final Cart cart1 = new Cart();
-        cart1.setOrderDateTime(LocalDateTime.now());
+        cart1.setName("test cart 1");
         cart1.setProducts(cartProducts1);
 
         final List<Product> cartProducts2 = Arrays.asList(product1, product2);
         final Cart cart2 = new Cart();
-        cart2.setOrderDateTime(LocalDateTime.now());
+        cart2.setName("test cart 2");
         cart2.setProducts(cartProducts2);
 
         final List<Product> cartProducts3 = Arrays.asList(product1, product2, product3);
         final Cart cart3 = new Cart();
-        cart3.setOrderDateTime(LocalDateTime.now());
+        cart3.setName("test cart 3");
         cart3.setProducts(cartProducts3);
 
         entityManager.persist(cart1);

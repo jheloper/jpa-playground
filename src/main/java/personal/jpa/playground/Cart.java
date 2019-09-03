@@ -13,8 +13,8 @@ public class Cart {
     @Column(name = "cart_id")
     private long id;
 
-    @Column(name = "order_date_time")
-    private LocalDateTime orderDateTime;
+    @Column(name = "cart_name")
+    private String name;
 
     @ManyToMany
     @JoinTable(name = "cart_product",
@@ -31,12 +31,12 @@ public class Cart {
         this.id = id;
     }
 
-    public LocalDateTime getOrderDateTime() {
-        return orderDateTime;
+    public String getName() {
+        return name;
     }
 
-    public void setOrderDateTime(LocalDateTime orderDateTime) {
-        this.orderDateTime = orderDateTime;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Product> getProducts() {
