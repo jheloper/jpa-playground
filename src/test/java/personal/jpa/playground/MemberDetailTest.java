@@ -26,7 +26,6 @@ public class MemberDetailTest {
         entityManager.getTransaction().begin();
 
         Member member = new Member();
-        member.setId("t123");
         member.setAge(25);
         member.setUsername("Tom");
 
@@ -43,12 +42,13 @@ public class MemberDetailTest {
 
         entityManager.clear();
 
-        Member findMember = entityManager.find(Member.class, "t123");
+        Member findMember = entityManager.find(Member.class, member.getId());
 
         Assert.assertEquals(findMember.getId(), member.getId());
         Assert.assertEquals(findMember.getAge(), member.getAge());
         Assert.assertEquals(findMember.getUsername(), member.getUsername());
         Assert.assertEquals(findMember.getMemberDetail().getAddress(), memberDetail.getAddress());
-        Assert.assertEquals(findMember.getMemberDetail().getContactNumber(), memberDetail.getContactNumber());
+        Assert.assertEquals(findMember.getMemberDetail().getContactNumber(),
+                            memberDetail.getContactNumber());
     }
 }

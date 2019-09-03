@@ -44,7 +44,7 @@ public class App {
     public static void logicForMember(final EntityManager em) {
 
         final Member member = new Member();
-        member.setId("test");
+
         member.setUsername("jh");
         member.setAge(20);
 
@@ -52,7 +52,7 @@ public class App {
 
         member.setAge(25);
 
-        final Member findMember = em.find(Member.class, "test");
+        final Member findMember = em.find(Member.class, member.getId());
         System.out.printf("findMember = %s, age = %d%n", findMember.getUsername(),
                 findMember.getAge());
 

@@ -29,7 +29,6 @@ public class MemberTest {
 
         final Member member = new Member();
 
-        member.setId("test1");
         member.setAge(10);
         member.setUsername("Tom");
 
@@ -37,7 +36,7 @@ public class MemberTest {
 
         entityManager.clear();
 
-        Assert.assertNull(entityManager.find(Member.class, "test1"));
+        Assert.assertNull(entityManager.find(Member.class, member.getId()));
     }
 
 
@@ -52,7 +51,6 @@ public class MemberTest {
 
         final Member member = new Member();
 
-        member.setId("test1");
         member.setAge(10);
         member.setUsername("Tom");
 
@@ -62,7 +60,7 @@ public class MemberTest {
 
         entityManager.clear();
 
-        Assert.assertNotNull(entityManager.find(Member.class, "test1"));
+        Assert.assertNotNull(entityManager.find(Member.class, member.getId()));
     }
 
 
@@ -76,7 +74,6 @@ public class MemberTest {
 
         final Member member = new Member();
 
-        member.setId("test1");
         member.setAge(10);
         member.setUsername("Tom");
 
@@ -96,7 +93,7 @@ public class MemberTest {
         // 영속성 컨텍스트 강제 초기화
         entityManager.clear();
 
-        final Member findMember = entityManager.find(Member.class, "test1");
+        final Member findMember = entityManager.find(Member.class, member.getId());
 
         Assert.assertNotNull(findMember);
         Assert.assertEquals(Integer.valueOf(20), findMember.getAge());
@@ -113,7 +110,6 @@ public class MemberTest {
 
         final Member member = new Member();
 
-        member.setId("test1");
         member.setAge(10);
         member.setUsername("Tom");
 
@@ -136,7 +132,7 @@ public class MemberTest {
         // 영속성 컨텍스트 강제 초기화
         entityManager.clear();
 
-        final Member findMember = entityManager.find(Member.class, "test1");
+        final Member findMember = entityManager.find(Member.class, member.getId());
 
         Assert.assertNotNull(findMember);
         Assert.assertEquals(Integer.valueOf(10), findMember.getAge());
@@ -153,7 +149,6 @@ public class MemberTest {
 
         final Member member = new Member();
 
-        member.setId("test1");
         member.setAge(10);
         member.setUsername("Tom");
 
@@ -165,7 +160,7 @@ public class MemberTest {
         // 영속성 컨텍스트 강제 초기화
         entityManager.clear();
 
-        final Member findMember = entityManager.find(Member.class, "test1");
+        final Member findMember = entityManager.find(Member.class, member.getId());
 
         Assert.assertNotNull(findMember);
 
@@ -181,7 +176,7 @@ public class MemberTest {
         // 영속성 컨텍스트 강제 초기화
         entityManager.clear();
 
-        final Member removedMember = entityManager.find(Member.class, "test1");
+        final Member removedMember = entityManager.find(Member.class, findMember.getId());
 
         Assert.assertNull(removedMember);
     }
@@ -196,7 +191,6 @@ public class MemberTest {
 
         final Member member = new Member();
 
-        member.setId("test1");
         member.setAge(10);
         member.setUsername("Tom");
 
@@ -207,8 +201,8 @@ public class MemberTest {
         // 영속성 컨텍스트 강제 초기화
         entityManager.clear();
 
-        final Member findMember1 = entityManager.find(Member.class, "test1");
-        final Member findMember2 = entityManager.find(Member.class, "test1");
+        final Member findMember1 = entityManager.find(Member.class, member.getId());
+        final Member findMember2 = entityManager.find(Member.class, member.getId());
 
         Assert.assertNotNull(findMember1);
         Assert.assertNotNull(findMember2);
@@ -229,7 +223,6 @@ public class MemberTest {
 
         final Member member = new Member();
 
-        member.setId("test1");
         member.setAge(10);
         member.setUsername("Tom");
 
@@ -249,7 +242,7 @@ public class MemberTest {
         // 트랜잭션 2 커밋
         entityManager.getTransaction().commit();
 
-        final Member findMember = entityManager.find(Member.class, "test1");
+        final Member findMember = entityManager.find(Member.class, member.getId());
 
         Assert.assertNotNull(findMember);
         Assert.assertEquals(Integer.valueOf(10), findMember.getAge());
@@ -267,7 +260,7 @@ public class MemberTest {
         // 트랜잭션 3 커밋
         entityManager.getTransaction().commit();
 
-        final Member findMember2 = entityManager.find(Member.class, "test1");
+        final Member findMember2 = entityManager.find(Member.class, mergedMember.getId());
 
         Assert.assertNotNull(findMember2);
         Assert.assertEquals(Integer.valueOf(30), findMember2.getAge());
@@ -286,7 +279,6 @@ public class MemberTest {
 
         Member member = new Member();
 
-        member.setId("test1");
         member.setAge(10);
         member.setUsername("Tom");
 
@@ -296,7 +288,7 @@ public class MemberTest {
         // 트랜잭션 1 커밋
         entityManager.getTransaction().commit();
 
-        final Member findMember = entityManager.find(Member.class, "test1");
+        final Member findMember = entityManager.find(Member.class, member.getId());
 
         Assert.assertNotNull(findMember);
         Assert.assertEquals(member, findMember);
@@ -313,7 +305,6 @@ public class MemberTest {
 
         Member member = new Member();
 
-        member.setId("test1");
         member.setAge(10);
         member.setUsername("Tom");
 
@@ -341,7 +332,7 @@ public class MemberTest {
         // 영속성 컨텍스트 초기화
         entityManager.clear();
 
-        Member findMember = entityManager.find(Member.class, "test1");
+        Member findMember = entityManager.find(Member.class, member.getId());
 
         System.out.println(findMember.getTeam().getId());
         Assert.assertEquals(team.getId(), findMember.getTeam().getId());
@@ -358,7 +349,6 @@ public class MemberTest {
 
         Member member = new Member();
 
-        member.setId("test1");
         member.setAge(10);
         member.setUsername("Tom");
 

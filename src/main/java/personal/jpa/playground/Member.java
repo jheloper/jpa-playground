@@ -7,8 +7,9 @@ import javax.persistence.*;
 public class Member {
 
     @Id
+    @GeneratedValue
     @Column(name = "id")
-    private String id;
+    private long id;
 
     @Column(name = "name")
     private String username;
@@ -25,15 +26,13 @@ public class Member {
     private MemberDetail memberDetail;
 
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
-
 
     public String getUsername() {
         return username;
