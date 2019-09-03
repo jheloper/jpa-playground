@@ -8,6 +8,7 @@
         <class>personal.jpa.playground.Team</class>
         <class>personal.jpa.playground.ProductGroup</class>
         <class>personal.jpa.playground.MemberDetail</class>
+        <class>personal.jpa.playground.Cart</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
