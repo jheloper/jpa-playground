@@ -1,24 +1,15 @@
 package personal.jpa.playground;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
+import java.util.List;
+import javax.persistence.*;
+
 import personal.jpa.playground.enums.TeamType;
 
 @Entity
-@Table(name = "team", uniqueConstraints = {
-        @UniqueConstraint(name = "TEAM_NAME_TEAM_TYPE_UNIQUE", columnNames = {"team_name",
-                "team_type"})})
+@Table(name = "team",
+       uniqueConstraints = {@UniqueConstraint(name = "TEAM_NAME_TEAM_TYPE_UNIQUE",
+                                              columnNames = {"team_name", "team_type"})})
 public class Team {
 
     @Id
@@ -46,6 +37,9 @@ public class Team {
     // CLOB 또는 BLOB 타입 매핑
     @Lob
     private String description;
+
+    @OneToMany(mappedBy = "team")
+    private List<Member> members;
 
 
     public int getId() {
@@ -105,5 +99,15 @@ public class Team {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public List<Member> getMembers() {
+        return members;
+    }
+
+
+    public void setMembers(List<Member> members) {
+        this.members = members;
     }
 }
