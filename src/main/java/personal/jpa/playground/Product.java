@@ -1,6 +1,7 @@
 package personal.jpa.playground;
 
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.*;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -8,7 +9,10 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @DynamicUpdate
 @Table(name = "product")
-@SequenceGenerator(name = "PRODUCT_SEQ_GENERATOR", sequenceName = "PRODUCT_SEQ", initialValue = 1, allocationSize = 1)
+@SequenceGenerator(name = "PRODUCT_SEQ_GENERATOR",
+                   sequenceName = "PRODUCT_SEQ",
+                   initialValue = 1,
+                   allocationSize = 1)
 public class Product {
 
     @Id
@@ -26,6 +30,9 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "product_group_id", insertable = false, updatable = false)
     private ProductGroup productGroup;
+
+    @ManyToMany(mappedBy = "products")
+    private List<Cart> carts;
 
 
     public long getId() {
@@ -75,5 +82,15 @@ public class Product {
 
     public void setProductGroup(ProductGroup productGroup) {
         this.productGroup = productGroup;
+    }
+
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
 }
