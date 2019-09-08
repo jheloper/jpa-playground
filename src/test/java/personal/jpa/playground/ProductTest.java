@@ -1,16 +1,14 @@
 package personal.jpa.playground;
 
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import java.math.BigDecimal;
+import java.util.Arrays;
 
 public class ProductTest {
 
