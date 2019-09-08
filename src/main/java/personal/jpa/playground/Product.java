@@ -1,13 +1,8 @@
 package personal.jpa.playground;
 
 import java.math.BigDecimal;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
@@ -27,6 +22,10 @@ public class Product {
     private int quantity;
 
     private BigDecimal price;
+
+    @ManyToOne
+    @JoinColumn(name = "product_group_id", insertable = false, updatable = false)
+    private ProductGroup productGroup;
 
 
     public long getId() {
@@ -66,5 +65,15 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+
+    public ProductGroup getProductGroup() {
+        return productGroup;
+    }
+
+
+    public void setProductGroup(ProductGroup productGroup) {
+        this.productGroup = productGroup;
     }
 }
