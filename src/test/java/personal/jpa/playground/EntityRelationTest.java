@@ -105,4 +105,48 @@ public class EntityRelationTest {
         }
         Assert.assertEquals(2, resultList.size());
     }
+
+
+    @Test
+    public void updateRelation() {
+        final EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+
+        final Team team1 = new Team();
+        team1.setTeamName("team1");
+        team1.setTeamType(TeamType.A);
+        entityManager.persist(team1);
+
+        final Member member = new Member();
+        member.setUsername("member1");
+        member.setAge(20);
+        member.setTeam(team1);
+        entityManager.persist(member);
+
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        final Member findMember1 = entityManager.find(Member.class, member.getId());
+        Assert.assertNotNull(findMember1);
+        Assert.assertEquals(team1.getId(), findMember1.getTeam().getId());
+
+        entityManager.getTransaction().begin();
+
+        final Team team2 = new Team();
+        team2.setTeamName("team2");
+        team2.setTeamType(TeamType.B);
+        entityManager.persist(team2);
+
+        findMember1.setTeam(team2);
+
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        final Member findMember2 = entityManager.find(Member.class, member.getId());
+        Assert.assertNotNull(findMember2);
+        Assert.assertEquals(team2.getId(), findMember2.getTeam().getId());
+    }
 }
