@@ -60,7 +60,11 @@ public class Member {
 
 
     public void setTeam(Team team) {
+        if (this.team != null) {
+            this.team.getMembers().remove(this);
+        }
         this.team = team;
+        team.getMembers().add(this);
     }
 
 
