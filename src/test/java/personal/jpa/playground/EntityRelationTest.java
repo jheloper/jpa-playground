@@ -1,5 +1,6 @@
 package personal.jpa.playground;
 
+import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -55,6 +56,39 @@ public class EntityRelationTest {
         final Team findTeam1 = entityManager.find(Team.class, team1.getId());
         Assert.assertNotNull(findTeam1);
         Assert.assertEquals(2, findTeam1.getMembers().size());
+    }
+
+
+    @Test
+    public void saveBidirectionalRelationNotOwner() {
+        final EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+
+        final Member member1 = new Member();
+        member1.setUsername("member1");
+        member1.setAge(20);
+        entityManager.persist(member1);
+
+        final Member member2 = new Member();
+        member2.setUsername("member2");
+        member2.setAge(10);
+        entityManager.persist(member2);
+
+        final Team team1 = new Team();
+        team1.setTeamName("team1");
+        team1.setTeamType(TeamType.A);
+        // 연관관계의 주인이 아닌 쪽에서 아래와 같이 연관관계를 저장해도 데이터베이스에는 저장되지 않는다.
+        team1.setMembers(Lists.newArrayList(member1, member2));
+        entityManager.persist(team1);
+
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        final Team findTeam1 = entityManager.find(Team.class, team1.getId());
+        Assert.assertNotNull(findTeam1);
+        Assert.assertEquals(0, findTeam1.getMembers().size());
     }
 
 
